@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emperor FM Streaming</title>
+<style>
+body{margin:0;background:#0b1020;color:#fff;font-family:system-ui,Arial,sans-serif;min-height:100vh;display:grid;place-items:center}.card{width:min(680px,calc(100% - 32px));padding:28px;border:1px solid #26304a;border-radius:20px;background:#11182a;box-sizing:border-box}.muted{color:#9aa6bd}.btn{display:block;text-align:center;text-decoration:none;color:white;padding:14px;margin-top:12px;border-radius:12px;background:#315efb;font-weight:700}.player{width:100%;margin-top:18px;border-radius:14px;background:#000}.error{color:#ff8b8b}
+</style>
+</head>
+<body>
+<div class="card">
+<h1 id="name">{{ file_name }}</h1>
+<p class="muted">Size • {{ file_size }}</p>
+<div id="media"></div>
+<a id="download" class="btn" href="#">⬇ Download</a>
+<p class="muted">This API-only version streams files through Telegram Bot API.</p>
+</div>
+<script>
+const id={{ unique_id|tojson }};
+const name={{ file_name|tojson }};
+const isMedia={{ is_media|tojson }};
+const url=`/stream/${encodeURIComponent(id)}/${encodeURIComponent(name)}`;
+document.getElementById('download').href=url;
+const box=document.getElementById('media');
+if(isMedia){const video=/\.(mp4|mkv|webm|mov)$/i.test(name);const el=document.createElement(video?'video':'audio');el.className='player';el.controls=true;el.preload='metadata';el.src=url;box.appendChild(el)}
+</script>
+</body>
+</html>
