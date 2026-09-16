@@ -209,7 +209,7 @@ async def stream_file(request: Request, unique_id: str, filename: str):
         raise HTTPException(404, "Link expired or invalid.")
     # Standard Bot API file download is limited to 20 MB.
     size = int(doc.get("file_size", 0))
-    if size > 20 * 1024 * 1024:
+    if size > 1024 * 1024 * 1024:
         raise HTTPException(413, "This API-only version supports streaming files up to 20 MB. Telegram Bot API download limit is 20 MB.")
     path = await telegram_file_path(doc["file_id"])
     url = FILE_API.format(Config.BOT_TOKEN, path)
